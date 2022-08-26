@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace API.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class ProductoController : ControllerBase
     {
         [HttpGet(Name = "GetProductos")]
@@ -29,7 +29,7 @@ namespace API.Controllers
         }
 
         [HttpDelete(Name = "DeleteProducto")]
-        public bool DeleteProductoById([FromBody] int Id)
+        public bool DeleteProductoById([FromRoute] int Id)
         {
             try
             {
@@ -43,7 +43,7 @@ namespace API.Controllers
         }
 
         [HttpPut(Name = "PutVenta")]
-        public bool PutVenta([FromBody] List<Producto> productos, [FromHeader] int idUsuario)
+        public bool PutVenta([FromBody] List<Producto> productos, [FromRoute] int idUsuario)
         {
             try
             {

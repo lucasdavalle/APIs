@@ -4,9 +4,8 @@ using System.Data;
 
 namespace API.Repository
 {
-    public static class ProductoHandler
+    public  class ProductoHandler : ConexionHandler
     {
-        public const string ConnectionString = "Server=DESKTOP-IS33S42;Database=SistemaGestion;Trusted_Connection=True;Encrypt=False";
         public static List<Producto> GetProductos()
         {
             List<Producto> productos = new List<Producto>();
@@ -14,9 +13,9 @@ namespace API.Repository
 
             using (SqlConnection sqlConnection = new SqlConnection(ConnectionString))
             {
+                sqlConnection.Open();
                 using (SqlCommand sqlCommand = new SqlCommand(Query, sqlConnection))
                 {
-                    sqlConnection.Open();
                     using (SqlDataReader reader = sqlCommand.ExecuteReader())
                     {
                         if (reader.HasRows)
@@ -36,27 +35,40 @@ namespace API.Repository
                             }
                         }
                     }
-
-                    sqlConnection.Close();
                 }
+                sqlConnection.Close();
             }
             return productos;
         }
         public static bool DeleteProductoById(int Id)
         {
-            String Query = "DELETE FROM Prodcuto WHERE Id = @id" +
-                           "DELETE FROM ProdcutoVendido WHERE IdProducto = @id";
-
+            bool result = false;
+            String Query = "DELETE FROM ProductoVendido WHERE IdProducto = @idProducto";
+            String Query2 = "DELETE FROM Producto WHERE Id = @id";
             using (SqlConnection sqlConnection = new SqlConnection(ConnectionString))
             {
+                sqlConnection.Open();
                 using (SqlCommand sqlCommand = new SqlCommand(Query, sqlConnection))
                 {
-                    sqlConnection.Open();
-                    sqlCommand.Parameters.Add(new SqlParameter("id", SqlDbType.BigInt) { Value = Id });
-                    sqlConnection.Close();
+                    sqlCommand.Parameters.Add(new SqlParameter("idProducto", SqlDbType.BigInt) { Value = Id });
+                    int rowsAfected = sqlCommand.ExecuteNonQuery();
+                    if (rowsAfected > 0)
+                    {
+                        result = true;
+                    }
                 }
+                using (SqlCommand sqlCommand = new SqlCommand(Query2, sqlConnection))
+                {
+                    sqlCommand.Parameters.Add(new SqlParameter("id", SqlDbType.BigInt) { Value = Id });
+                    int rowsAfected = sqlCommand.ExecuteNonQuery();
+                    if (rowsAfected > 0)
+                    {
+                        result = true;
+                    }
+                }
+                sqlConnection.Close();
             }
-            return true;
+            return result;
         }
         public static bool NewProducto(Producto productoNuevo)
         {
@@ -66,10 +78,9 @@ namespace API.Repository
 
             using (SqlConnection sqlConnection = new SqlConnection(ConnectionString))
             {
+                sqlConnection.Open();
                 using (SqlCommand sqlCommand = new SqlCommand(Query, sqlConnection))
                 {
-                    sqlConnection.Open();
-
                     if (productoNuevo.Descripcion != String.Empty)
                     {
                         sqlCommand.Parameters.Add(new SqlParameter("Descripcion", SqlDbType.VarChar) { Value = productoNuevo.Descripcion });
@@ -82,9 +93,8 @@ namespace API.Repository
                         sqlCommand.Parameters.Add(new SqlParameter("PrecioDeVenta", SqlDbType.BigInt) { Value = productoNuevo.PrecioDeVenta});
                         sqlCommand.Parameters.Add(new SqlParameter("Stock", SqlDbType.BigInt) { Value = productoNuevo.Stock });
                         sqlCommand.Parameters.Add(new SqlParameter("IdUsuario", SqlDbType.BigInt) { Value = productoNuevo.IdUsuario });
-
-                    sqlConnection.Close();
                 }
+                sqlConnection.Close();
             }
             return true;
         }
@@ -100,9 +110,9 @@ namespace API.Repository
                            "WHERE Id = @id";
             using (SqlConnection sqlConnection = new SqlConnection(ConnectionString))
             {
+                sqlConnection.Open();
                 using (SqlCommand sqlCommand = new SqlCommand(Query, sqlConnection))
                 {
-                    sqlConnection.Open();
                     if (productoActualizado.Descripcion != String.Empty)
                     {
                         sqlCommand.Parameters.Add(new SqlParameter("Descripcion", SqlDbType.VarChar) { Value = productoActualizado.Descripcion });
@@ -115,8 +125,8 @@ namespace API.Repository
                     sqlCommand.Parameters.Add(new SqlParameter("PrecioDeVenta", SqlDbType.BigInt) { Value = productoActualizado.PrecioDeVenta });
                     sqlCommand.Parameters.Add(new SqlParameter("Stock", SqlDbType.BigInt) { Value = productoActualizado.Stock });
                     sqlCommand.Parameters.Add(new SqlParameter("IdUsuario", SqlDbType.BigInt) { Value = productoActualizado.IdUsuario });
-                    sqlConnection.Close();
                 }
+                sqlConnection.Close();
             }
             return true;
         }
@@ -132,9 +142,9 @@ namespace API.Repository
                             "WHERE Id=@IdProducto";
             using (SqlConnection sqlConnection = new SqlConnection(ConnectionString))
             {
+                sqlConnection.Open();
                 using (SqlCommand sqlCommand = new SqlCommand(Query, sqlConnection))
                 {
-                    sqlConnection.Open();
                     sqlCommand.Parameters.Add(new SqlParameter("Comentarios", SqlDbType.BigInt) { Value = NewVenta.Comentarios });
                     foreach (Producto productoVenta in productos)
                     {
@@ -156,9 +166,8 @@ namespace API.Repository
                             }
                         }
                     }
-
-                    sqlConnection.Close();
                 }
+                sqlConnection.Close();
             }
             return true;
         }

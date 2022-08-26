@@ -4,9 +4,8 @@ using System.Data;
 
 namespace API.Repository
 {
-    public class UsuarioHandler
+    public class UsuarioHandler : ConexionHandler
     {
-        public const string ConnectionString = "Server=DESKTOP-IS33S42;Database=SistemaGestion;Trusted_Connection=True;Encrypt=False";
         public static List<Usuario> GetUsuario()
         {
             List<Usuario> usuarios = new List<Usuario>();
@@ -14,10 +13,9 @@ namespace API.Repository
 
             using (SqlConnection sqlConnection = new SqlConnection(ConnectionString))
             {
+                sqlConnection.Open();
                 using (SqlCommand sqlCommand = new SqlCommand(Query, sqlConnection))
                 {
-                    sqlConnection.Open();
-
                     using (SqlDataReader reader = sqlCommand.ExecuteReader())
                     {
                         if (reader.HasRows)
@@ -35,8 +33,8 @@ namespace API.Repository
                             }
                         }
                     }
-                    sqlConnection.Close();
                 }
+                sqlConnection.Close();
             }
             return usuarios;
         }
@@ -52,17 +50,17 @@ namespace API.Repository
                            "WHERE Id = @id";
             using (SqlConnection sqlConnection = new SqlConnection(ConnectionString))
             {
+                sqlConnection.Open();
                 using (SqlCommand sqlCommand = new SqlCommand(Query, sqlConnection))
                 {
-                    sqlConnection.Open();
                     sqlCommand.Parameters.Add(new SqlParameter("id", SqlDbType.BigInt) { Value = usuarioActualizado.Id });
                     sqlCommand.Parameters.Add(new SqlParameter("Nombre", SqlDbType.VarChar) { Value = usuarioActualizado.Nombre });
                     sqlCommand.Parameters.Add(new SqlParameter("Apellido", SqlDbType.VarChar) { Value = usuarioActualizado.Apellido });
                     sqlCommand.Parameters.Add(new SqlParameter("NombreUsuario", SqlDbType.VarChar) { Value = usuarioActualizado.NombreUsuario });
                     sqlCommand.Parameters.Add(new SqlParameter("Contraseña", SqlDbType.VarChar) { Value = usuarioActualizado.Contraseña });
                     sqlCommand.Parameters.Add(new SqlParameter("Mail", SqlDbType.VarChar) { Value = usuarioActualizado.Mail });
-                    sqlConnection.Close();
                 }
+                
             }
             return true;
         }

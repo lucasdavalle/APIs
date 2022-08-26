@@ -2516,11 +2516,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Informacion\\c#\\API1\\API1\\API.csproj",
+      "projectUniqueName": "D:\\Informacion\\c#\\APIs\\API1\\API.csproj",
       "projectName": "API",
-      "projectPath": "D:\\Informacion\\c#\\API1\\API1\\API.csproj",
+      "projectPath": "D:\\Informacion\\c#\\APIs\\API1\\API.csproj",
       "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
-      "outputPath": "D:\\Informacion\\c#\\API1\\API1\\obj\\",
+      "outputPath": "D:\\Informacion\\c#\\APIs\\API1\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
