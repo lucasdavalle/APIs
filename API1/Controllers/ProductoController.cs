@@ -42,13 +42,12 @@ namespace API.Controllers
             }
         }
 
-        [HttpPut(Name = "PutVenta")]
-        public bool PutVenta([FromBody] List<Product> products, [FromRoute] int idUsuario)
+        [HttpPut(Name = "PutProducto")]
+        public bool PutProducto([FromBody] Product product)
         {
             try
             {
-                Venta NewVenta = new Venta();
-                return ProductoHandler.NewVenta(products, idUsuario,NewVenta);
+                return ProductoHandler.PutProducto(product);
             }
             catch (Exception ex)
             {
@@ -56,19 +55,5 @@ namespace API.Controllers
                 return false;
             }
         }
-
-        //[HttpPut(Name = "PutProducto")]
-        //public bool PutProducto([FromBody] Product product)
-        //{
-        //    try
-        //    {
-        //        return ProductoHandler.PutProducto(product);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        Console.WriteLine(ex.Message);
-        //        return false;
-        //    }
-        //}
     }
 }
