@@ -1,6 +1,6 @@
 ﻿namespace API.Model
 {
-    public class Usuario
+    public class User
     {
         public int Id;
         public string Nombre;
@@ -9,7 +9,7 @@
         public string Contraseña;
         public string Mail;
         //Definicion de constructor vacio
-        public Usuario()
+        public User()
         {
             Id = 0;
             Nombre = string.Empty;
@@ -19,7 +19,7 @@
             Mail = string.Empty;
         }
         //Definicion de constructor parametrizado 
-        public Usuario(int id, string nombre, string apellido, string nombreUsuario, string contraseña, string mail)
+        public User(int id, string nombre, string apellido, string nombreUsuario, string contraseña, string mail)
         {
             Id = id;
             Nombre = nombre;

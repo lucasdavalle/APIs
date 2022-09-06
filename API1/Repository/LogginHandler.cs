@@ -6,10 +6,10 @@ namespace API.Repository
 {
     public class LogginHandler  : ConexionHandler
     {
-        public static Usuario InicioSeccion(String NombreUsuario, String Contraseña)
+        public static User InicioSeccion(String NombreUsuario, String Contraseña)
         {
-            string Query = "SELECT * FROM Usuario WHERE NombreUsuario = @NombreUsuario";
-            Usuario usuario = new Usuario();
+            string Query = "SELECT * FROM User WHERE NombreUsuario = @NombreUsuario";
+            User User = new User();
             using (SqlConnection sqlConnection = new SqlConnection(ConnectionString))
             {
                 using (SqlCommand sqlCommand = new SqlCommand(Query, sqlConnection))
@@ -22,12 +22,12 @@ namespace API.Repository
                         {
                             while (reader.Read())
                             {
-                                usuario.Id = Convert.ToInt32(reader["Id"]);
-                                usuario.Nombre = (reader["Nombre"]).ToString();
-                                usuario.Apellido = (reader["Apellido"]).ToString();
-                                usuario.NombreUsuario = (reader["NombreUsuario"]).ToString();
-                                usuario.Contraseña = (reader["Contraseña"]).ToString();
-                                usuario.Mail = (reader["Mail"]).ToString();
+                                User.Id = Convert.ToInt32(reader["Id"]);
+                                User.Nombre = (reader["Nombre"]).ToString();
+                                User.Apellido = (reader["Apellido"]).ToString();
+                                User.NombreUsuario = (reader["NombreUsuario"]).ToString();
+                                User.Contraseña = (reader["Contraseña"]).ToString();
+                                User.Mail = (reader["Mail"]).ToString();
                             }
                         }
                     }
@@ -35,15 +35,15 @@ namespace API.Repository
                     sqlConnection.Close();
                 }
             }
-            if (String.Equals(usuario.Contraseña, Contraseña))
+            if (String.Equals(User.Contraseña, Contraseña))
             {
                 Console.WriteLine("Contraseña Correcta");
-                return usuario;
+                return User;
             }
             else
             {
                 Console.WriteLine("Contraseña Incorrecta");
-                return new Usuario();
+                return new User();
             }
 
         }

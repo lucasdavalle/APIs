@@ -6,9 +6,9 @@ namespace API.Repository
 {
     public  class ProductoHandler : ConexionHandler
     {
-        public static List<Producto> GetProductos()
+        public static List<Product> GetProductos()
         {
-            List<Producto> productos = new List<Producto>();
+            List<Product> products = new List<Product>();
             String Query = "SELECT * FROM Producto";
 
             using (SqlConnection sqlConnection = new SqlConnection(ConnectionString))
@@ -22,23 +22,23 @@ namespace API.Repository
                         {
                             while (reader.Read())
                             {
-                                Producto producto = new Producto();
+                                Product Product = new Product();
 
-                                producto.Id = Convert.ToInt32(reader["Id"]);
-                                producto.Descripcion = (reader["Descripciones"]).ToString();
-                                producto.Costo = Convert.ToInt32(reader["Costo"]);
-                                producto.PrecioDeVenta = Convert.ToInt32(reader["PrecioVenta"]);
-                                producto.Stock = Convert.ToInt32(reader["Stock"]);
-                                producto.IdUsuario = Convert.ToInt32(reader["IdUsuario"]);
+                                Product.Id = Convert.ToInt32(reader["Id"]);
+                                Product.Descripcion = (reader["Descripciones"]).ToString();
+                                Product.Costo = Convert.ToInt32(reader["Costo"]);
+                                Product.PrecioDeVenta = Convert.ToInt32(reader["PrecioVenta"]);
+                                Product.Stock = Convert.ToInt32(reader["Stock"]);
+                                Product.IdUsuario = Convert.ToInt32(reader["IdUsuario"]);
 
-                                productos.Add(producto);
+                                products.Add(Product);
                             }
                         }
                     }
                 }
                 sqlConnection.Close();
             }
-            return productos;
+            return products;
         }
         public static bool DeleteProductoById(int Id)
         {
@@ -70,7 +70,7 @@ namespace API.Repository
             }
             return result;
         }
-        public static bool NewProducto(Producto productoNuevo)
+        public static bool NewProducto(Product productoNuevo)
         {
             
             String Query = "INSERT INTO Producto(Descripcion, Costo, PrecioDeVenta, Stock, IdUsuario)" +
@@ -98,7 +98,7 @@ namespace API.Repository
             }
             return true;
         }
-        public static bool PutProducto(Producto productoActualizado)
+        public static bool PutProducto(Product productoActualizado)
         {
 
             String Query = "UPDATE Producto " +
@@ -130,7 +130,7 @@ namespace API.Repository
             }
             return true;
         }
-        public static bool NewVenta(List<Producto> productos, int idUsuario, Venta NewVenta)
+        public static bool NewVenta(List<Product> products, int idUsuario, Venta NewVenta)
         {
             String Query = "INSERT INTO venta(Comentarios) " +
                             "VALUES(@Comentarios)" +
@@ -146,7 +146,7 @@ namespace API.Repository
                 using (SqlCommand sqlCommand = new SqlCommand(Query, sqlConnection))
                 {
                     sqlCommand.Parameters.Add(new SqlParameter("Comentarios", SqlDbType.BigInt) { Value = NewVenta.Comentarios });
-                    foreach (Producto productoVenta in productos)
+                    foreach (Product productoVenta in products)
                     {
                         sqlCommand.Parameters.Add(new SqlParameter("Stock", SqlDbType.BigInt) { Value = productoVenta.Stock });
                         sqlCommand.Parameters.Add(new SqlParameter("IdProducto", SqlDbType.BigInt) { Value = productoVenta.Id });
@@ -158,7 +158,7 @@ namespace API.Repository
                         {
                             while (reader.Read())
                             {
-                                Producto productoStock = new Producto();
+                                Product productoStock = new Product();
                                 productoStock.Stock = Convert.ToInt32(reader["Stock"]);
                                 productoStock.Stock = productoStock.Stock - 1;
                                 sqlCommand.Parameters.Add(new SqlParameter("StockActualizado", SqlDbType.BigInt) { Value = productoStock.Stock });

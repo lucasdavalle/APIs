@@ -1,6 +1,6 @@
 ﻿namespace API.Model
 {
-    public class Producto
+    public class Product
     {
         public int Id;
         public string Descripcion;
@@ -9,7 +9,7 @@
         public double Stock;
         public int IdUsuario;
         //Definicion de constructor vacio
-        public Producto()
+        public Product()
         {
             Id = 0;
             Descripcion = string.Empty;
@@ -19,7 +19,7 @@
             IdUsuario = 0;
         }
         //Definicion de constructor parametrizado 
-        public Producto(int id, string descripcion, double costo, double precioDeVenta, double stock, int idUsuario)
+        public Product(int id, string descripcion, double costo, double precioDeVenta, double stock, int idUsuario)
         {
             Id = id;
             Descripcion = descripcion;

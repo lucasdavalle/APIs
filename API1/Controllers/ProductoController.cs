@@ -9,17 +9,17 @@ namespace API.Controllers
     public class ProductoController : ControllerBase
     {
         [HttpGet(Name = "GetProductos")]
-        public List<Producto> GetProductos()
+        public List<Product> GetProductos()
         {
             return ProductoHandler.GetProductos();
         }
 
         [HttpPost(Name = "PostProductos")]
-        public bool NewProducto([FromBody] Producto producto)
+        public bool NewProducto([FromBody] Product Product)
         {
             try
             {
-                return ProductoHandler.NewProducto(producto);
+                return ProductoHandler.NewProducto(Product);
             }
             catch(Exception ex)
             {
@@ -43,12 +43,12 @@ namespace API.Controllers
         }
 
         [HttpPut(Name = "PutVenta")]
-        public bool PutVenta([FromBody] List<Producto> productos, [FromRoute] int idUsuario)
+        public bool PutVenta([FromBody] List<Product> products, [FromRoute] int idUsuario)
         {
             try
             {
                 Venta NewVenta = new Venta();
-                return ProductoHandler.NewVenta(productos, idUsuario,NewVenta);
+                return ProductoHandler.NewVenta(products, idUsuario,NewVenta);
             }
             catch (Exception ex)
             {
@@ -56,5 +56,19 @@ namespace API.Controllers
                 return false;
             }
         }
+
+        //[HttpPut(Name = "PutProducto")]
+        //public bool PutProducto([FromBody] Product product)
+        //{
+        //    try
+        //    {
+        //        return ProductoHandler.PutProducto(product);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Console.WriteLine(ex.Message);
+        //        return false;
+        //    }
+        //}
     }
 }
